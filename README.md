@@ -20,6 +20,10 @@ Welcome to the repository for Module 3 GenAi assignments and practice works! Thi
    - Description: Solution for the problem of distributing idlis fairly among friends.
    - File: `practice(idli).py`
 
+5. **Card Game:**
+   - **Description:** Implementation of a bidding card game.
+   - **File:** GenAi_CardGame.pdf and diamond_cardgame.py
+
 ## Additional Content:
 
 - **Transcript of Conversations with GenAi:**
