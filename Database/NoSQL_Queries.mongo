@@ -51,3 +51,23 @@ db.Move.find({
     { $and: [{ type: "Water" }, { name: { $nin: ["Vine Whip"] } }] }
   ]
 }, { name: 1, _id: 0 });
+
+//Now if we consider  that mostly only the pokemon type matters, because if a weaker type pokemon is against a stronger one, its power value is halved and doubled if vice versa.
+// Query to return all the moves in the game that are powerful against Grass:
+db.Move.find({
+  $or: [
+    { type: { $in: ["Fire", "Flying"] } },
+    { $and: [{ type: "Water" }, { name: { $nin: ["Vine Whip"] } }] }
+  ]
+}).forEach(function(move) {
+    if (move.type === "Fire" || move.type === "Flying") {
+        move.effective_power = move.power * 2;
+    } else {
+        move.effective_power = move.power;
+    }
+    printjson(move);
+});
+
+// Query to return all the Pokémon who can learn 'Return':
+db.Pokemon.find({ "name": { $in: ["Bulbasaur", "Charmander", "Squirtle", "Eevee", "Pidgey"] } });
+
