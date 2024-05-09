@@ -1,0 +1,38 @@
+# Designing a database for Pokemon!
+
+We’re going to simplify Pokemon to just a couple of mechanics that are used in the game, and thankfully, you don’t need to know how it works to do this exercise.
+
+Pokemon can have one or two ‘types,’ which decide whether they’re more effective or less effective against other Pokemon types. Every pokemon has a primay type; some also have a secondary type.
+
+The game involves using moves to attack other Pokemon, and each move has a certain power and type. Every move has a set of Pokemon who are capable of learning it; and every Pokemon has a set of moves it can learn.
+
+At the very least, we’d need database tables to store Pokemon, Type, and Move. However, ‘Pokemon’ and ‘Move’ have a classic many-to-many relationship. How do you deal with this?
+
+1. Create all the tables needed. (5)
+2. With the following details, populate the tables: (5)
+  1. Bulbasaur is a pokemon of Grass type.
+  2. Charmander is a pokemon of Fire type.
+  3. Squirtle is a pokemon of Water type.
+  4. Eevee is a pokemon of Normal type
+  5. Pidgey is a pokemon of the Normal/Flying type.
+  6. Bulbasaur can learn Tackle, Vine Whip, and Return.
+  7. Charmander can learn Tackle, Ember, and Return.
+  8. Squirtle can learn Tackle, Water Gun, and Return.
+  9. Eevee can learn Tackle, Headbutt, and Return.
+  10. Pidgey can learn Tackle, Wing Attack, and Return.
+  11. Tackle has 35 power and is Normal type.
+  12. Water Gun has 40 power and is Water type.
+  13. Ember has 40 power and is Fire type.
+  14. Vine Whip has 40 power and is Grass type.
+  15. Wing attack has 65 power and is Flying type.
+  16. Headbutt has 70 power and is Normal type.
+  17. Return has 100 power and is Normal type.
+  18. Fire is powerful against Grass but weak to Water.
+  19. Grass is powerful against Water but weak to both Fire and Flying.
+  20. Water is powerful against Fire but weak to Grass.
+  21. Normal is not weak to anything but not powerful against anything either.
+  22. Flying is powerful against Grass and has no weaknesses.
+3. Write a query that returns all the pokemon who can learn ‘Return’. (5)
+4. Write a query that returns all the moves in the game that are powerful against Grass. (5)
+
+

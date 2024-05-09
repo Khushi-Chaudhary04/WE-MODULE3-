@@ -1,0 +1,53 @@
+// Create collections 
+db.createCollection("Pokemon");
+db.createCollection("Move");
+db.createCollection("Pokemon_Move");
+
+// Insert documents 
+db.Pokemon.insertMany([
+  { name: "Bulbasaur", primary_type: "Grass", secondary_type: null },
+  { name: "Charmander", primary_type: "Fire", secondary_type: null },
+  { name: "Squirtle", primary_type: "Water", secondary_type: null },
+  { name: "Eevee", primary_type: "Normal", secondary_type: null },
+  { name: "Pidgey", primary_type: "Normal", secondary_type: "Flying" }
+]);
+
+db.Move.insertMany([
+  { name: "Tackle", power: 35, type: "Normal" },
+  { name: "Water Gun", power: 40, type: "Water" },
+  { name: "Ember", power: 40, type: "Fire" },
+  { name: "Vine Whip", power: 40, type: "Grass" },
+  { name: "Wing Attack", power: 65, type: "Flying" },
+  { name: "Headbutt", power: 70, type: "Normal" },
+  { name: "Return", power: 100, type: "Normal" }
+]);
+
+// Create indexes for relationships
+db.Pokemon_Move.createIndex({ pokemon_id: 1, move_id: 1 }, { unique: true });
+
+// Insert documents into the linking collection
+db.Pokemon_Move.insertMany([
+  { pokemon_id: 1, move_id: 1 }, { pokemon_id: 1, move_id: 4 }, { pokemon_id: 1, move_id: 7 },
+  { pokemon_id: 2, move_id: 1 }, { pokemon_id: 2, move_id: 3 }, { pokemon_id: 2, move_id: 7 },
+  { pokemon_id: 3, move_id: 1 }, { pokemon_id: 3, move_id: 2 }, { pokemon_id: 3, move_id: 7 },
+  { pokemon_id: 4, move_id: 1 }, { pokemon_id: 4, move_id: 6 }, { pokemon_id: 4, move_id: 7 },
+  { pokemon_id: 5, move_id: 1 }, { pokemon_id: 5, move_id: 5 }, { pokemon_id: 5, move_id: 7 }
+]);
+
+// Query to return all the Pokémon who can learn 'Return':
+db.Pokemon_Move.aggregate([
+  { $lookup: { from: "Pokemon", localField: "pokemon_id", foreignField: "pokemon_id", as: "pokemon" } },
+  { $unwind: "$pokemon" },
+  { $lookup: { from: "Move", localField: "move_id", foreignField: "move_id", as: "move" } },
+  { $unwind: "$move" },
+  { $match: { "move.name": "Return" } },
+  { $project: { "pokemon.name": 1, _id: 0 } }
+]);
+
+// Query to return all the moves in the game that are powerful against Grass:
+db.Move.find({
+  $or: [
+    { type: { $in: ["Fire", "Flying"] } },
+    { $and: [{ type: "Water" }, { name: { $nin: ["Vine Whip"] } }] }
+  ]
+}, { name: 1, _id: 0 });
