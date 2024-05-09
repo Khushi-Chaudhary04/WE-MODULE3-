@@ -61,3 +61,23 @@ SELECT m.name
 FROM Move m
 WHERE m.type IN ('Fire', 'Flying') OR
       (m.type = 'Water' AND NOT EXISTS (SELECT 1 FROM Move WHERE type = 'Grass'));
+
+--Now if we consider  that mostly only the pokemon type matters, because if a weaker type pokemon is against a stronger one, its power value is halved and doubled if vice versa.
+
+-- Query to return all the moves in the game that are powerful against Grass:
+SELECT m.name,
+       CASE
+           WHEN m.type = 'Fire' THEN m.power * 2
+           WHEN m.type = 'Flying' THEN m.power * 2
+           ELSE m.power
+       END AS effective_power
+FROM Move m
+WHERE m.type IN ('Fire', 'Flying') OR
+      (m.type = 'Water' AND NOT EXISTS (SELECT 1 FROM Move WHERE type = 'Grass'));
+
+-- Query to return all the Pokémon who can learn 'Return':
+SELECT p.name
+FROM Pokemon p
+JOIN Pokemon_Move pm ON p.pokemon_id = pm.pokemon_id
+JOIN Move m ON pm.move_id = m.move_id
+WHERE m.name = 'Return';
